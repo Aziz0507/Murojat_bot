@@ -25,17 +25,22 @@ def connect_to_base(user, password, database):
 
 def sacn_opr(message):
         mydb = connect_to_base("root", "", "Golos_Navoiy")
+
         mycursor = mydb.cursor()
         mycursor.execute(f"SELECT * FROM users where User_id = {str(message.chat.id)}")
         myresult = mycursor.fetchall()
+        print('do myresult')
+        
         for i in myresult:
             if i[5] == 'operator':
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT * FROM application")
-                myresult_i = mycursor.fetchall()
+                mycursor_i = mydb.cursor()
+                mycursor_i.execute("SELECT * FROM application")
+                myresult_i = mycursor_i.fetchall()
+
                 for y in myresult_i:
-                    
-                        if y[5] == 'new':
+                    print(y)
+                    if y[6] == 'new':
+                            print('new')
                             user_app = y[2]
                             user_name = str(i[1])
                             post_id = y[0]
@@ -47,8 +52,8 @@ def sacn_opr(message):
                             keyboard.add(button1)
 
                             bot.send_message(message.chat.id, text=user_app, reply_markup=keyboard)
-                
-            else:
+            elif i[5] == 'user':
+                print(i[5])
                 start.create_post(message)
 
 
@@ -118,15 +123,46 @@ def add_adres(message):
     asd = 'sizning adres qabul qilindi'
     bot.send_message(message.chat.id, asd)
 
-def otvet_na_vopros_opr(message):
+def otvet_na_vopros_opr(message,*id):
     mydb = connect_to_base("root", "", "Golos_Navoiy")
     mycursor = mydb.cursor()
-    sql = f"UPDATE application SET answer_aplicate = '{message.text}', app_type = 'reviewed' WHERE answer_aplicate = 'None'"
+    id = str(*id)
+    sql = f"UPDATE application SET answer_aplicate = '{message.text}', app_type = 'review' WHERE id ={id[4:]}"
     mycursor.execute(sql)
     mydb.commit()
+    send_sql = f"select * from application where id = {id[4:]}"
+    mycursor.execute(send_sql)
+    res = mycursor.fetchone()
+    bot.send_message(message.chat.id, 'sizning javobingiz qabul qilindi')
+    bot.send_message(res[1],f"Sizning {res[2]} murojaatingizga javoban {res[3]}")
 
     
-    bot.reply_to(message.chat.id, 'sizning javobingiz qabul qilindi')
+
+
+# def ressilka_otveton_useram(message):
+#         mydb = connect_to_base("root", "", "Golos_Navoiy")
+
+#         mycursor = mydb.cursor()
+#         mycursor.execute("SELECT * FROM application")
+#         myresult = mycursor.fetchall()
+        
+#         for _answer_app_ in myresult:
+#             if _answer_app_[6] == 'expectation':
+#                 mydb = connect_to_base("root", "", "Golos_Navoiy")
+#                 mycursor = mydb.cursor()
+#                 sql = f"UPDATE application SET app_type = 'reviewed' WHERE app_type = 'expectation' "
+#                 mycursor.execute(sql)
+#                 mydb.commit()
+
+
+            
+            #     user_id = _answer_app_[1]
+            #     app_user = _answer_app_[2]
+            #     answer_app = _answer_app_[3]
+
+            #     bot.send_message(message.user_id, f'Sizning arizangiz: {app_user}\nArizangizga javob: {answer_app}')
+
+
 
 
 
@@ -216,12 +252,9 @@ def inline_answer(call):
         asd = 'iltimos qiynagan savolingizni bravering, yaqin orada biz javob berishga harakat qilamiz'
         bot.send_message(call.from_user.id, asd)
         bot.register_next_step_handler(call.message, ariza_vopros)
-
-
-
     elif call.data[:4] == 'post':
         bot.send_message(call.from_user.id, 'Shu savolga javobini yozing')
-        bot.register_next_step_handler(call.message, otvet_na_vopros_opr)
+        bot.register_next_step_handler(call.message, otvet_na_vopros_opr,call.data)
 
         
 @bot.message_handler(content_types=['contact'])
