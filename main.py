@@ -141,7 +141,7 @@ def otvet_na_vopros_opr(message,*id):
         file_id = bot.get_file(message.document.file_id).file_path
         download_doc = bot.download_file(file_id)
         safe_src = "files/" + f'{dok_name}'
-        with open(safe_src, "w") as save_file:
+        with open(safe_src, "wb") as save_file:
             save_file.write(download_doc)
         bot.send_message(message.chat.id, 'Dokument instaling...')
 
@@ -170,8 +170,8 @@ def safe_document(message):
     dok_name = message.document.file_name
     file_id = bot.get_file(message.document.file_id).file_path
     download_doc = bot.download_file(file_id)
-    safe_src = "files/" + f'{dok_name}'
-    with open(safe_src, "w") as save_file:
+    safe_src = "files/" + f"{dok_name}"
+    with open(safe_src, "wb") as save_file:
         save_file.write(download_doc)
     bot.send_message(message.chat.id, 'Dokument instaling')
 
@@ -262,8 +262,8 @@ def inline_answer(call):
         bot.register_next_step_handler(call.message, ariza_vopros)
     elif call.data[:4] == 'post':
         bot.send_message(call.from_user.id, 'Shu savolga javobini yozing')
-        #bot.register_next_step_handler(call.message, otvet_na_vopros_opr,call.data)
-        bot.register_next_step_handler(call.message, safe_document)
+        bot.register_next_step_handler(call.message, otvet_na_vopros_opr,call.data)
+        #bot.register_next_step_handler(call.message, safe_document)
 
 
 
