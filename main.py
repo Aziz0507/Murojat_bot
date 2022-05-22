@@ -39,7 +39,7 @@ def sacn_opr(message):
 
                 for y in myresult_i:
                     print(y)
-                    if y[6] == 'new':
+                    if y[7] == 'new':
                             print('new')
                             user_app = y[2]
                             user_name = str(i[1])
@@ -128,14 +128,14 @@ def otvet_na_vopros_opr(message,*id):
         mydb = connect_to_base("root", "", "Golos_Navoiy")
         mycursor = mydb.cursor()
         id = str(*id)
-        sql = f"UPDATE application SET answer_aplicate = '{message.text}', app_type = 'review' WHERE id ={id[4:]}"
+        sql = f"UPDATE application SET answer_aplicate = '{message.text}', app_type = 'reviewed' WHERE id ={id[4:]}"
         mycursor.execute(sql)
         mydb.commit()
         send_sql = f"select * from application where id = {id[4:]}"
         mycursor.execute(send_sql)
         res = mycursor.fetchone()
         bot.send_message(message.chat.id, 'sizning javobingiz qabul qilindi')
-        bot.send_message(res[1],f"Sizning {res[2]} murojaatingizga javoban {res[3]}")
+        bot.send_message(res[1],f"Sizning '{res[2]}' murojaatingizga javoban '{res[3]}'")
     elif message.content_type == 'document':
         dok_name = message.document.file_name
         file_id = bot.get_file(message.document.file_id).file_path
@@ -156,7 +156,7 @@ def otvet_na_vopros_opr(message,*id):
         mycursor.execute(send_sql)
         res = mycursor.fetchone()
         bot.send_message(message.chat.id, 'sizning faylingiz qabul qilindi')
-        bot.send_message(res[1],f"Sizning {res[2]} murojaatingizga javoban")
+        bot.send_message(res[1],f"Sizning '{res[2]}' murojaatingizga javoban")
         doc = open(safe_src, 'rb')
         bot.send_document(res[1], doc)
         
