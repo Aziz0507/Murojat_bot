@@ -64,13 +64,13 @@ class Start_command:
         keyboard.add(button1, button2, button3)
         bot.send_message(message.chat.id, text=abs, reply_markup=keyboard)
 
-    def create_post(self, message):
+    def create_post(self, id):
         keyboard = InlineKeyboardMarkup(row_width = 1)
         button1 = InlineKeyboardButton(text="Ariza berish", callback_data="ariza")
         button2 = InlineKeyboardButton(text="Xokimlik xaqida", callback_data='xakim')
         button3 = InlineKeyboardButton(text = "Bot xaqida m'alumot", callback_data='ifo_bot')
         keyboard.add(button1, button2, button3)
-        bot.send_message(message.chat.id, text="Bironta amalni tanlang!", reply_markup=keyboard)
+        bot.send_message(id, text="Bironta amalni tanlang!", reply_markup=keyboard)
 
    
     

@@ -3,7 +3,7 @@ from telebot.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardBut
 from conf import Start_command, bot, Documentation
 import mysql.connector
 import datetime
-
+import nltk
 
 start = Start_command()
 document = Documentation()
@@ -54,7 +54,8 @@ def sacn_opr(message):
                             bot.send_message(message.chat.id, text=user_app, reply_markup=keyboard)
             elif i[5] == 'user':
                 print(i[5])
-                start.create_post(message)
+                asd = message.chat.id
+                start.create_post(asd)
 
 
 
@@ -80,14 +81,33 @@ def add_app(id):
     mydb = connect_to_base("root","","Golos_Navoiy")
     mycursor = mydb.cursor()
     applicate = document.users_aplication[str(id)]
-    t_day = datetime.date.today()
-    print(applicate)
-    sql = 'INSERT INTO application(user_id, application, date) VALUES (%s, %s, %s)'
-    val = (str(id), applicate['application'],t_day)
-    mycursor.execute(sql, val)
-    mydb.commit()
-    print(sql)
-    document.clear_item()
+    t_day = datetime.date.today()   
+    region_sql = "SELECT DISTINCT(Tuman) FROM mobil_baza"
+    mycursor.execute(region_sql)
+    my_regions = mycursor.fetchall()
+    for item in my_regions:
+        phraz = applicate['application'].split() 
+        for phraz_item in phraz:
+            if len(phraz_item) > len(item[0]):
+                distance = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
+            else:
+                distance = nltk.edit_distance(item[0],phraz_item)/len(item)
+            if distance <= 0.3:
+                my_find = phraz_item
+                bot.send_message(id,f"naydena fraza {my_find}")
+
+        
+    # if ('Konimex' == applicate['application'] or distance <= 0.2):
+    #     bot.send_message(id,f" Sizni suxbatdoshiz  {distance} ")
+    # else:
+    #     bot.send_message(id,distance)
+
+
+    # sql = 'INSERT INTO application(user_id, application, date) VALUES (%s, %s, %s)'
+    # val = (str(id), applicate['application'],t_day)
+    # mycursor.execute(sql, val)
+    # mydb.commit()    
+    # document.clear_item()
 
 
 
@@ -102,12 +122,13 @@ def add_user(id):
 
 
 def add_fio(message):
-    start.add_fio(message.text, message.chat.id)
-    print(start.users_info)
-    check_user(message.chat.id)
-    asd = 'sizning FIO qabul qilindi'
-    bot.send_message(message.chat.id, asd)
-
+    if len(message.text) >=8:
+        start.add_fio(message.text, message.chat.id)
+        check_user(message.chat.id)
+        asd = 'sizning FIO qabul qilindi'
+        bot.send_message(message.chat.id, asd)
+    else:
+        bot.send_message(message.chat.id, '⁉️ ⁉️ ⁉️ Iltimos FIO tugmasini qaytib bosing va ismingizni toliq kiriting')
 
 def add_phone(message):
     start.add_phone(message.contact.phone_number, message.chat.id)
@@ -187,7 +208,7 @@ def check_user(id):
     my_keys = list(user.keys())
     print(my_keys)
     if "fio" in my_keys and "adres" in my_keys and "phone" in my_keys:
-        if (len(user["fio"]) > 7 and len(user["phone"]) > 10 and len(user["adres"]) > 5):
+        if (len(user["fio"]) > 5 and len(user["phone"]) > 10 and len(user["adres"]) > 5):
             bot.send_message(id, "Siz registratsiyadan to'liq o'tdiz endi ma'lumot junatsangiz ham bo'ladi!")
             start.create_post(id)
             add_user(id)
@@ -198,7 +219,7 @@ def check_application(id):
     applicate = document.get_app(id)
     my_keys = list(applicate.keys())
     if "application" in my_keys:
-        if len(applicate['application'])>20:
+        if len(applicate['application'])>2:
             add_app(id)
             asd = '✅ sizning arizangiz qabul qilindi!\n1️⃣Sizning arizangiz birinchi bosqichda...'
             bot.send_message(id, asd)
@@ -209,6 +230,7 @@ def ariza_vopros(message):
     document.add_chat_id(message.chat.id)
     document.add_applicatiio(message.text, message.chat.id)
     check_application(message.chat.id)
+    
 
 
 
