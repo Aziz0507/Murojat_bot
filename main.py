@@ -1,5 +1,6 @@
 import telebot
 from telebot.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telebot import types
 from conf import Start_command, bot, Documentation
 import mysql.connector
 import datetime
@@ -34,16 +35,16 @@ def sacn_opr(message):
         for i in myresult:
             if i[5] == 'operator':
                 mycursor_i = mydb.cursor()
-                mycursor_i.execute("SELECT * FROM application")
+                mycursor_i.execute("SELECT a.user_id, a.application, a.id, u.User_id, u.fio From application a, users u WHERE a.user_id = u.User_id")
                 myresult_i = mycursor_i.fetchall()
 
                 for y in myresult_i:
                     print(y)
                     if y[7] == 'new':
                             print('new')
-                            user_app = y[2]
-                            user_name = str(i[1])
-                            post_id = y[0]
+                            user_app = y[1]
+                            user_name = i[4]
+                            post_id = y[2]
                                 
                                 
                             keyboard = InlineKeyboardMarkup(row_width = 1)
@@ -81,6 +82,7 @@ def add_app(id):
     mydb = connect_to_base("root","","Golos_Navoiy")
     mycursor = mydb.cursor()
     applicate = document.users_aplication[str(id)]
+    print(document.users_aplication)
     t_day = datetime.date.today()   
     region_sql = "SELECT DISTINCT(Tuman) FROM mobil_baza"
     mycursor.execute(region_sql)
@@ -103,8 +105,8 @@ def add_app(id):
     #     bot.send_message(id,distance)
 
 
-    # sql = 'INSERT INTO application(user_id, application, date) VALUES (%s, %s, %s)'
-    # val = (str(id), applicate['application'],t_day)
+    # sql = 'INSERT INTO application(user_id, application, date, app_button) VALUES (%s, %s, %s, %s)'
+    # val = (str(id), applicate['application'],t_day, a)
     # mycursor.execute(sql, val)
     # mydb.commit()    
     # document.clear_item()
@@ -260,6 +262,18 @@ def send_welcome(message):
         start.add_chat_id(message.chat.id)
         scan_user(message)
 
+@bot.message_handler(content_types=['text'])
+def button_processing(message):
+    if message.text == 'Aloqa':
+        asd = 'iltimos qiynagan savolingizni bravering, yaqin orada biz javob berishga harakat qilamiz'
+        bot.send_message(message.from_user.id, asd)
+        bot.register_next_step_handler(message, ariza_vopros)
+
+        document.add_chat_id(message.chat.id)
+        document.add_button(message.text, message.chat.id)
+        check_application(message.chat.id)
+
+
 
 @bot.callback_query_handler(func=lambda call: True)
 def inline_answer(call):
@@ -279,9 +293,20 @@ def inline_answer(call):
     elif call.data == 'xakim':
         pass
     elif call.data == 'ariza':
-        asd = 'iltimos qiynagan savolingizni bravering, yaqin orada biz javob berishga harakat qilamiz'
-        bot.send_message(call.from_user.id, asd)
-        bot.register_next_step_handler(call.message, ariza_vopros)
+
+        asd = 'iltimos muamoni turini tanlang:'
+
+        keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+        key_1 = types.KeyboardButton(text="Aloqa")
+        key_2 = types.KeyboardButton(text="Internet")
+        key_3 = types.KeyboardButton(text="Boshqa...")
+        keyboard.add(key_1, key_2, key_3)
+        bot.send_message(call.from_user.id, asd, reply_markup=keyboard)
+
+        
+        
+
+        
     elif call.data[:4] == 'post':
         bot.send_message(call.from_user.id, 'Shu savolga javobini yozing')
         bot.register_next_step_handler(call.message, otvet_na_vopros_opr,call.data)

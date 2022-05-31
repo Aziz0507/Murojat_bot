@@ -83,6 +83,7 @@ class Documentation:
     def __init__(self):
         self.chat_id = ""
         self.application = ""
+        self.button = ""
 
 
     def add_chat_id(self, chat_id):
@@ -94,6 +95,11 @@ class Documentation:
     def add_applicatiio(self, application, chat_id):
         if chat_id in Documentation.applikation:
             Documentation.users_aplication[str(chat_id)] = {'application':application}
+        return self.__dict__
+
+    def add_button(self, button, chat_id):
+        if chat_id in Documentation.button:
+            Documentation.users_aplication[str(chat_id)] = {'button':button}
         return self.__dict__
 
     def get_app(self, chat_id):
