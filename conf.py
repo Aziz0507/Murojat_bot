@@ -89,17 +89,18 @@ class Documentation:
     def add_chat_id(self, chat_id):
         if chat_id not in Documentation.applikation:
             Documentation.applikation.append(chat_id)
-            Documentation.users_aplication = {str(chat_id): {}}
+            Documentation.users_aplication = {str(chat_id): {'button' : '', 'application' : ''}}
         self.chat_id = chat_id
 
     def add_applicatiio(self, application, chat_id):
         if chat_id in Documentation.applikation:
-            Documentation.users_aplication[str(chat_id)] = {'application':application}
+            Documentation.users_aplication[str(chat_id)]['application'] = application
         return self.__dict__
 
     def add_button(self, button, chat_id):
-        if chat_id in Documentation.button:
-            Documentation.users_aplication[str(chat_id)] = {'button':button}
+        if chat_id in Documentation.applikation:
+            Documentation.users_aplication[str(chat_id)]['button'] = button
+            self.button = button
         return self.__dict__
 
     def get_app(self, chat_id):

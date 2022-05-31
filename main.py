@@ -221,7 +221,7 @@ def check_application(id):
     applicate = document.get_app(id)
     my_keys = list(applicate.keys())
     if "application" in my_keys:
-        if len(applicate['application'])>2:
+        if len(applicate['application'])>4:
             add_app(id)
             asd = '✅ sizning arizangiz qabul qilindi!\n1️⃣Sizning arizangiz birinchi bosqichda...'
             bot.send_message(id, asd)
@@ -267,11 +267,14 @@ def button_processing(message):
     if message.text == 'Aloqa':
         asd = 'iltimos qiynagan savolingizni bravering, yaqin orada biz javob berishga harakat qilamiz'
         bot.send_message(message.from_user.id, asd)
-        bot.register_next_step_handler(message, ariza_vopros)
-
         document.add_chat_id(message.chat.id)
         document.add_button(message.text, message.chat.id)
         check_application(message.chat.id)
+        bot.register_next_step_handler(message, ariza_vopros)
+    else:
+        bot.send_message(message.chat.id, f"WWW!")
+
+        
 
 
 
