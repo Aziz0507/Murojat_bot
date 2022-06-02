@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 31 2022 г., 07:59
+-- Время создания: Июн 02 2022 г., 16:23
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.5.38
 
@@ -36,35 +36,34 @@ CREATE TABLE `application` (
   `answer_doc` varchar(250) NOT NULL DEFAULT 'None',
   `date` varchar(12) NOT NULL,
   `end_date` date NOT NULL,
-  `app_type` varchar(25) NOT NULL DEFAULT 'new',
-  `app_button` varchar(15) NOT NULL
+  `app_type` varchar(25) NOT NULL DEFAULT 'new'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `application`
 --
 
-INSERT INTO `application` (`id`, `user_id`, `application`, `answer_aplicate`, `answer_doc`, `date`, `end_date`, `app_type`, `app_button`) VALUES
-(8, 315375144, 'iltimos manga qarab bering', 'фывфывфывфывфыв', 'None', '2022-05-16', '0000-00-00', 'reviewed', ''),
-(9, 315375144, 'Iltimos sharoit qilib beringlar', 'salom mir....', 'None', '2022-05-16', '0000-00-00', 'reviewed', ''),
-(11, 315375144, 'Qachon internet yaxshilanadi', 'Иди гуляй....', 'None', '2022-05-16', '0000-00-00', 'reviewed', ''),
-(12, 315375144, 'iltimos tv ni taxlang', 'uchirib yoq!!!', 'None', '2022-05-16', '0000-00-00', 'review', ''),
-(13, 315375144, 'Asalom aleykum manga svaz joq', 'Svaz juq bulganda, juq buladida...', 'None', '2022-05-22', '0000-00-00', 'review', ''),
-(14, 315375144, 'Iltimos choy damlab beringlar', 'None', 'files/ReadMe_rus.doc', '2022-05-22', '0000-00-00', 'review', ''),
-(15, 315375144, 'Пожалусто почините мой телефон', 'None', 'files/УТВЕРЖДАЮ.docx', '2022-05-22', '0000-00-00', 'review', ''),
-(16, 315375144, 'suv tashkillashtiring iltimos managa judayam kerak', 'None', 'None', '2022-05-22', '0000-00-00', 'new', ''),
-(17, 315375144, 'Iltimos rengeni teshing', 'None', 'None', '2022-05-23', '0000-00-00', 'new', ''),
-(18, 722188816, 'Нимага навои телевидиянинг камралари хира тасвирга олади', 'None', 'files/стихи о родине.doc', '2022-05-23', '0000-00-00', 'review', ''),
-(19, 387713426, 'Konime', 'None', 'None', '2022-05-27', '0000-00-00', 'new', ''),
-(20, 387713426, 'Tomdi', 'None', 'None', '2022-05-27', '0000-00-00', 'new', ''),
-(21, 387713426, 'Konimasd', 'None', 'None', '2022-05-27', '0000-00-00', 'new', ''),
-(22, 387713426, 'Konimasid', 'None', 'None', '2022-05-27', '0000-00-00', 'new', ''),
-(23, 387713426, 'Konmakon', 'None', 'None', '2022-05-27', '0000-00-00', 'new', ''),
-(24, 315375144, 'asdasdasdasd', 'None', 'None', '2022-05-28', '0000-00-00', 'new', ''),
-(25, 315375144, 'Konimex', 'None', 'None', '2022-05-28', '0000-00-00', 'new', ''),
-(26, 315375144, 'Konimes', 'None', 'None', '2022-05-28', '0000-00-00', 'new', ''),
-(27, 315375144, 'Koshin', 'None', 'None', '2022-05-28', '0000-00-00', 'new', ''),
-(28, 315375144, 'asdasdasdasdasd', 'None', 'None', '2022-05-28', '0000-00-00', 'new', '');
+INSERT INTO `application` (`id`, `user_id`, `application`, `answer_aplicate`, `answer_doc`, `date`, `end_date`, `app_type`) VALUES
+(8, 315375144, 'iltimos manga qarab bering', 'фывфывфывфывфыв', 'None', '2022-05-16', '0000-00-00', 'reviewed'),
+(9, 315375144, 'Iltimos sharoit qilib beringlar', 'salom mir....', 'None', '2022-05-16', '0000-00-00', 'reviewed'),
+(11, 315375144, 'Qachon internet yaxshilanadi', 'Иди гуляй....', 'None', '2022-05-16', '0000-00-00', 'reviewed'),
+(12, 315375144, 'iltimos tv ni taxlang', 'uchirib yoq!!!', 'None', '2022-05-16', '0000-00-00', 'review'),
+(13, 315375144, 'Asalom aleykum manga svaz joq', 'Svaz juq bulganda, juq buladida...', 'None', '2022-05-22', '0000-00-00', 'review'),
+(14, 315375144, 'Iltimos choy damlab beringlar', 'None', 'files/ReadMe_rus.doc', '2022-05-22', '0000-00-00', 'review'),
+(15, 315375144, 'Пожалусто почините мой телефон', 'None', 'files/УТВЕРЖДАЮ.docx', '2022-05-22', '0000-00-00', 'review'),
+(16, 315375144, 'suv tashkillashtiring iltimos managa judayam kerak', 'None', 'None', '2022-05-22', '0000-00-00', 'new'),
+(17, 315375144, 'Iltimos rengeni teshing', 'None', 'None', '2022-05-23', '0000-00-00', 'new'),
+(18, 722188816, 'Нимага навои телевидиянинг камралари хира тасвирга олади', 'None', 'files/стихи о родине.doc', '2022-05-23', '0000-00-00', 'review'),
+(19, 387713426, 'Konime', 'None', 'None', '2022-05-27', '0000-00-00', 'new'),
+(20, 387713426, 'Tomdi', 'None', 'None', '2022-05-27', '0000-00-00', 'new'),
+(21, 387713426, 'Konimasd', 'None', 'None', '2022-05-27', '0000-00-00', 'new'),
+(22, 387713426, 'Konimasid', 'None', 'None', '2022-05-27', '0000-00-00', 'new'),
+(23, 387713426, 'Konmakon', 'None', 'None', '2022-05-27', '0000-00-00', 'new'),
+(24, 315375144, 'asdasdasdasd', 'None', 'None', '2022-05-28', '0000-00-00', 'new'),
+(25, 315375144, 'Konimex', 'None', 'None', '2022-05-28', '0000-00-00', 'new'),
+(26, 315375144, 'Konimes', 'None', 'None', '2022-05-28', '0000-00-00', 'new'),
+(27, 315375144, 'Koshin', 'None', 'None', '2022-05-28', '0000-00-00', 'new'),
+(28, 315375144, 'asdasdasdasdasd', 'None', 'None', '2022-05-28', '0000-00-00', 'new');
 
 -- --------------------------------------------------------
 
