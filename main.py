@@ -87,29 +87,46 @@ def add_app(id):
     region_sql = "SELECT DISTINCT(Tuman) FROM mobil_baza"
     mycursor.execute(region_sql)
     my_regions = mycursor.fetchall()
+    
     for item in my_regions:
         phraz = applicate['application'].split() 
         for phraz_item in phraz:
             if len(phraz_item) > len(item[0]):
                 distance = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
+                print(f'{phraz_item} > {item[0]}')
             else:
                 distance = nltk.edit_distance(item[0],phraz_item)/len(item)
             if distance <= 0.3:
                 my_find = phraz_item
                 bot.send_message(id,f"naydena fraza {my_find}")
+                
+                mycursor = mydb.cursor()
+                axoli_sql = "SELECT DISTINCT(Axoli_punkt) FROM mobil_baza"
+                mycursor.execute(axoli_sql)
+                punkts = mycursor.fetchall()
 
-        
+                for axoli_p in punkts:
+                    phraz = applicate['application'].split()
+                    if len(phraz_item) > len(axoli_p):
+                        distance_punkt = nltk.edit_distance(axoli_p[0],phraz_item)/len(phraz_item)
+                        print(f'{phraz_item} > {axoli_p[0]}')
+                        bot.send_message(id, f'{phraz_item} > {axoli_p[0]}')
+                    else:
+                        pass
+
+                    
+            
     # if ('Konimex' == applicate['application'] or distance <= 0.2):
     #     bot.send_message(id,f" Sizni suxbatdoshiz  {distance} ")
     # else:
     #     bot.send_message(id,distance)
 
 
-    # sql = 'INSERT INTO application(user_id, application, date, app_button) VALUES (%s, %s, %s, %s)'
-    # val = (str(id), applicate['application'],t_day, a)
-    # mycursor.execute(sql, val)
-    # mydb.commit()    
-    # document.clear_item()
+    """sql = 'INSERT INTO application(user_id, application, date, app_button) VALUES (%s, %s, %s, %s)'
+    val = (str(id), applicate['application'],t_day, applicate['button'])
+    mycursor.execute(sql, val)
+    mydb.commit()    
+    document.clear_item()"""
 
 
 
