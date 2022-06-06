@@ -106,15 +106,16 @@ def add_app(id):
                 punkts = mycursor.fetchall()
 
                 for axoli_p in punkts:
-                    phraz = applicate['application'].split()
                     if len(phraz_item) > len(axoli_p):
                         distance_punkt = nltk.edit_distance(axoli_p[0],phraz_item)/len(phraz_item)
                         print(f'{phraz_item} > {axoli_p[0]}')
                         bot.send_message(id, f'{phraz_item} > {axoli_p[0]}')
                     else:
-                        pass
-
-                    
+                        distance = nltk.edit_distance(axoli_p[0],phraz_item)/len(axoli_p)
+                    if distance_punkt <= 0.4:
+                        bot.send_message(id, f"Найдена фраза {phraz_item}") 
+                    else:
+                        bot.send_message(id,{distance})                   
             
     # if ('Konimex' == applicate['application'] or distance <= 0.2):
     #     bot.send_message(id,f" Sizni suxbatdoshiz  {distance} ")
