@@ -11,118 +11,119 @@ start = Start_command()
 document = Documentation()
 
 
-def excamination_lot_kir(text):
-    def k_or_l(text):
+def k_or_l(text):
 
-        a = random.randint(0,len(text)-1)
-        b = random.randint(0,len(text)-1)
-        c = random.randint(0,len(text)-1)
-        d = random.randint(0,len(text)-1)
-        print(text[a],text[b],text[c],text[d])
-        if ( 65 >= ord(text[a]), ord(text[b]), ord(text[c]), ord(text[d]) >= 122 ):
-            return 1
-        else:
-            return 0
+    a = random.randint(0,len(text)-1)
+    b = random.randint(0,len(text)-1)
+    c = random.randint(0,len(text)-1)
+    d = random.randint(0,len(text)-1)
+    # print(text[a],text[b],text[c],text[d])
+    if ( 65 >= ord(text[a]), ord(text[b]), ord(text[c]), ord(text[d]) >= 122 ):
+        return 1
+    else:
+        return 0
 
-    def replace_def(text):
-        if k_or_l(text) == 1:
-            dict_replace = {
-            "A":{'lotin': 'A','kiril':'А'},
-            "a":{'lotin': 'a','kiril':'а'},
-            
-            'Sh':{"lotin":"Sh", "kiril":'Ш'},
-            'sh':{"lotin":"sh", "kiril":'ш'},
-            
-            'SH':{"lotin":"SH", "kiril":'Ш'},
-
-            "B":{'lotin': 'B', "kiril": 'Б'},
-            "b":{"lotin": 'b', 'kiril':'б'},
-            
-            "ch":{'lotin': 'ch', 'kiril':'ч'},
-            "Ch":{'lotin':'Ch','kiril':'Ч'},
-
-            "CH":{'lotin':'CH','kiril':'Ч'},
-            
-            "D":{'lotin':'D', "kiril":'Д'},
-            "d":{"lotin":'d', 'kiril':'д'},
-            
-            'E':{'lotin':'E', 'kiril':'Е'},
-            'e':{"lotin": 'e', 'kiril':'е'},
-            
-            'F':{"lotin":"F", "kiril":'Ф'},
-            'f':{"lotin": 'f', 'kiril':'ф'},
-            
-            'G':{"lotin":"G", "kiril":'Г'},
-            'g':{"lotin": 'g', 'kiril':'г'},
-            
-            'H':{"lotin":"H", "kiril":'Ҳ'},
-            'h':{"lotin":'h', 'kiril':'ҳ'},
-            
-            'I':{"lotin":"I", "kiril":'И'},
-            'i':{"lotin": 'i', 'kiril':'и'},
-            
-            'J':{"lotin":"J", "kiril":'Ж'},
-            'j':{"lotin":'j', 'kiril':'ж'},
-            
-            'K':{"lotin":"K", "kiril":'К'},
-            'k':{"lotin": 'k', 'kiril':'к'},
-            
-            'L':{"lotin":"L", "kiril":'Л'},
-            'l':{"lotin": 'l', 'kiril':'л'},
-            
-            'M':{"lotin":"M", "kiril":'М'},
-            'm':{"lotin": 'm', 'kiril':'м'},
-            
-            'N':{"lotin":"N", "kiril":'Н'},
-            'n':{"lotin": 'n', 'kiril':'н'},
-            
-            'O':{"lotin":"O", "kiril":'О'},
-            'o':{"lotin": 'o', 'kiril':'о'},
-            
-            "O'":{"lotin":"O'", "kiril":'Ў'},
-            "o'":{"lotin": "o'", 'kiril':'ў'},
-            
-            'P':{"lotin":"P", "kiril":'П'},
-            'p':{"lotin": 'p', 'kiril':'п'},
-            
-            'Q':{"lotin":"Q", "kiril":'Қ'},
-            'q':{"lotin":"q", "kiril":'қ'},
-            
-            'R':{"lotin":"R", "kiril":'Р'},
-            'r':{"lotin":"r", "kiril":'р'},
-            
-            'S':{"lotin":"S", "kiril":'С'},        
-            's':{"lotin":"s", "kiril":'с'},
-            
+def replace_def(text):
+    if k_or_l(text) == 1:
+        dict_replace = {
+        "A":{'lotin': 'A','kiril':'А'},
+        "a":{'lotin': 'a','kiril':'а'},
         
-            
-            'T':{"lotin":"T", "kiril":'Т'},
-            't':{"lotin":"t", "kiril":'т'},
-            
-            'U':{"lotin":"U", "kiril":'У'},
-            'u':{"lotin":"u", "kiril":'у'},
+        'Sh':{"lotin":"Sh", "kiril":'Ш'},
+        'sh':{"lotin":"sh", "kiril":'ш'},
+        
+        'SH':{"lotin":"SH", "kiril":'Ш'},
 
-            'V':{"lotin":"V", "kiril":'В'},
-            'v':{"lotin":"v", "kiril":'в'},
-            
-            'X':{"lotin":"X", "kiril":'Х'},
-            'x':{"lotin":"x", "kiril":'х'},
+        "B":{'lotin': 'B', "kiril": 'Б'},
+        "b":{"lotin": 'b', 'kiril':'б'},
+        
+        "ch":{'lotin': 'ch', 'kiril':'ч'},
+        "Ch":{'lotin':'Ch','kiril':'Ч'},
 
-            'Y':{"lotin":"Y", "kiril":'Й'},
-            'y':{"lotin":"y", "kiril":'й'},
-            
-            'Z':{"lotin":"Z", "kiril":'З'},
-            'z':{"lotin":"z", "kiril":'з'},
+        "CH":{'lotin':'CH','kiril':'Ч'},
+        
+        "D":{'lotin':'D', "kiril":'Д'},
+        "d":{"lotin":'d', 'kiril':'д'},
+        
+        'E':{'lotin':'E', 'kiril':'Е'},
+        'e':{"lotin": 'e', 'kiril':'е'},
+        
+        'F':{"lotin":"F", "kiril":'Ф'},
+        'f':{"lotin": 'f', 'kiril':'ф'},
+        
+        'G':{"lotin":"G", "kiril":'Г'},
+        'g':{"lotin": 'g', 'kiril':'г'},
+        
+        'H':{"lotin":"H", "kiril":'Ҳ'},
+        'h':{"lotin":'h', 'kiril':'ҳ'},
+        
+        'I':{"lotin":"I", "kiril":'И'},
+        'i':{"lotin": 'i', 'kiril':'и'},
+        
+        'J':{"lotin":"J", "kiril":'Ж'},
+        'j':{"lotin":'j', 'kiril':'ж'},
+        
+        'K':{"lotin":"K", "kiril":'К'},
+        'k':{"lotin": 'k', 'kiril':'к'},
+        
+        'L':{"lotin":"L", "kiril":'Л'},
+        'l':{"lotin": 'l', 'kiril':'л'},
+        
+        'M':{"lotin":"M", "kiril":'М'},
+        'm':{"lotin": 'm', 'kiril':'м'},
+        
+        'N':{"lotin":"N", "kiril":'Н'},
+        'n':{"lotin": 'n', 'kiril':'н'},
+        
+        'O':{"lotin":"O", "kiril":'О'},
+        'o':{"lotin": 'o', 'kiril':'о'},
+        
+        "O'":{"lotin":"O'", "kiril":'Ў'},
+        "o'":{"lotin": "o'", 'kiril':'ў'},
+        
+        'P':{"lotin":"P", "kiril":'П'},
+        'p':{"lotin": 'p', 'kiril':'п'},
+        
+        'Q':{"lotin":"Q", "kiril":'Қ'},
+        'q':{"lotin":"q", "kiril":'қ'},
+        
+        'R':{"lotin":"R", "kiril":'Р'},
+        'r':{"lotin":"r", "kiril":'р'},
+        
+        'S':{"lotin":"S", "kiril":'С'},        
+        's':{"lotin":"s", "kiril":'с'},
+        
+      
+        
+        'T':{"lotin":"T", "kiril":'Т'},
+        't':{"lotin":"t", "kiril":'т'},
+        
+        'U':{"lotin":"U", "kiril":'У'},
+        'u':{"lotin":"u", "kiril":'у'},
 
-            "G'":{"lotin":"G'", "kiril":'Ғ'},
-            "g'":{"lotin":"g'", "kiril":'ғ'},
-            }
-            for item in dict_replace:
-                #print(dict_replace[str(item)]['lotin'],dict_replace[str(item)]['kiril'])
-                text = text.replace(str(dict_replace[str(item)]['lotin']),str(dict_replace[str(item)]['kiril']))
-            return text
-        else:
-            print('kirilcha')    
+        'V':{"lotin":"V", "kiril":'В'},
+        'v':{"lotin":"v", "kiril":'в'},
+        
+        'X':{"lotin":"X", "kiril":'Х'},
+        'x':{"lotin":"x", "kiril":'х'},
+
+        'Y':{"lotin":"Y", "kiril":'Й'},
+        'y':{"lotin":"y", "kiril":'й'},
+        
+        'Z':{"lotin":"Z", "kiril":'З'},
+        'z':{"lotin":"z", "kiril":'з'},
+
+        "G'":{"lotin":"G'", "kiril":'Ғ'},
+        "g'":{"lotin":"g'", "kiril":'ғ'},
+        }
+        for item in dict_replace:
+            #print(dict_replace[str(item)]['lotin'],dict_replace[str(item)]['kiril'])
+            text = text.replace(str(dict_replace[str(item)]['lotin']),str(dict_replace[str(item)]['kiril']))
+        return text
+    else:
+        print('kirilcha')    
+   
+  
 
 
 def connect_to_base(user, password, database):
@@ -199,40 +200,46 @@ def add_app(id):
     mycursor.execute(region_sql)
     my_regions = mycursor.fetchall()
 
-
-    excamination_lot_kir(applicate['application'])
-
-
     
+
+
     for item in my_regions:
-        phraz = applicate['application'].split() 
-        for phraz_item in phraz:
+        phraz = replace_def(applicate['application']).lower() 
+        phraz_i = phraz.split()
+        print(phraz_i)
+
+        for phraz_item in phraz_i:
             if len(phraz_item) > len(item[0]):
                 distance = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
                 print(f'{phraz_item} > {item[0]}')
             else:
                 distance = nltk.edit_distance(item[0],phraz_item)/len(item)
+
             if distance <= 0.3:
                 my_find = phraz_item
                 bot.send_message(id,f"naydena fraza {my_find}")
                 
-                mycursor = mydb.cursor()
+                mycursor_s = mydb.cursor()
                 axoli_sql = f"SELECT DISTINCT(Axoli_punkt) FROM mobil_baza WHERE Tuman = '{my_find}'"
-                mycursor.execute(axoli_sql)
-                punkts = mycursor.fetchall()
+                mycursor_s.execute(axoli_sql)
+                punkts = mycursor_s.fetchall()
+
 
                 for axoli_p in punkts:
                     if len(phraz_item) > len(axoli_p):
                         distance_punkt = nltk.edit_distance(axoli_p[0],phraz_item)/len(phraz_item)
                         print(f'{phraz_item} > {axoli_p[0]}')
                         bot.send_message(id, f'{phraz_item} > {axoli_p[0]}')
+
                     else:
                         distance = nltk.edit_distance(axoli_p[0],phraz_item)/len(axoli_p)
+
                     if distance_punkt <= 0.4:
                         bot.send_message(id, f"Найдена фраза {phraz_item}") 
+
                     else:
                         bot.send_message(id,f"Дистанция {distance}")                   
-            
+                
     # if ('Konimex' == applicate['application'] or distance <= 0.2):
     #     bot.send_message(id,f" Sizni suxbatdoshiz  {distance} ")
     # else:
