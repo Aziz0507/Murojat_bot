@@ -1,3 +1,4 @@
+from email import message
 import telebot
 from telebot.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import types
@@ -206,12 +207,11 @@ def add_app(id):
     for item in my_regions:
         phraz = replace_def(applicate['application']).lower() 
         phraz_i = phraz.split()
-        print(phraz_i)
+        
 
         for phraz_item in phraz_i:
             if len(phraz_item) > len(item[0]):
                 distance = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
-                print(f'{phraz_item} > {item[0]}')
             else:
                 distance = nltk.edit_distance(item[0],phraz_item)/len(item)
 
@@ -223,9 +223,33 @@ def add_app(id):
                 axoli_sql = f"SELECT DISTINCT(Axoli_punkt) FROM mobil_baza WHERE Tuman = '{my_find}'"
                 mycursor_s.execute(axoli_sql)
                 punkts = mycursor_s.fetchall()
+                
+                for for_punkst in punkts:
+
+                    if len(phraz_item) > len(item[0]):
+                        distance_punkts = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
+                    else:
+                        distance = nltk.edit_distance(item[0],phraz_item)/len(item)
 
 
-                for axoli_p in punkts:
+
+
+
+                    
+                    for item_phraz in phraz_i:
+                        bot.send_message(id, f'{for_punkst}  ==  {item_phraz}')
+                        if for_punkst == item_phraz:
+                            pass
+                            """
+                            mycursor_s = mydb.cursor()
+                            axoli_sql = f"SELECT DISTINCT(Axoli_punkt) FROM mobil_baza WHERE Tuman = '{my_find}'"
+                            mycursor_s.execute(axoli_sql)
+                            punkts = mycursor_s.fetchall()"""
+                            
+                    # if punkts == phraz_i:
+                # bot.send_message(id, f"{punkts} == {phraz_i}")
+                
+                """
                     if len(phraz_item) > len(axoli_p):
                         distance_punkt = nltk.edit_distance(axoli_p[0],phraz_item)/len(phraz_item)
                         print(f'{phraz_item} > {axoli_p[0]}')
@@ -239,7 +263,7 @@ def add_app(id):
 
                     else:
                         bot.send_message(id,f"Дистанция {distance}")                   
-                
+                """
     # if ('Konimex' == applicate['application'] or distance <= 0.2):
     #     bot.send_message(id,f" Sizni suxbatdoshiz  {distance} ")
     # else:
