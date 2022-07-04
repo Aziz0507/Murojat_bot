@@ -1,4 +1,4 @@
-from email import message
+# from email import message
 import telebot
 from telebot.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telebot import types
@@ -8,6 +8,8 @@ import datetime
 import nltk
 import random
 from gtts import gTTS
+import requests
+
 
 start = Start_command()
 document = Documentation()
@@ -201,60 +203,83 @@ def add_app(id):
     region_sql = "SELECT DISTINCT(Tuman) FROM mobil_baza"
     mycursor.execute(region_sql)
     my_regions = mycursor.fetchall()
+    if applicate['button'] == 'Aloqa':
+  
+        for item in my_regions:
+            phraz = replace_def(applicate['application']).lower() 
+            phraz_i = phraz.split()
+            
 
-    
+            for phraz_item in phraz_i:
+                if len(phraz_item) > len(item[0]):
+                    distance = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
+                else:
+                    distance = nltk.edit_distance(item[0],phraz_item)/len(item)
 
+                if distance <= 0.3:
+                    my_find = phraz_item
+                    bot.send_message(id,f"naydena fraza {my_find}")
+                    
+                    mycursor_s = mydb.cursor()
+                    axoli_sql = f"SELECT * FROM mobil_baza WHERE Tuman = '{my_find}'"
+                    mycursor_s.execute(axoli_sql)
+                    punkts = mycursor_s.fetchall()
+                    
+                    for for_punkst in punkts:
 
-    for item in my_regions:
-        phraz = replace_def(applicate['application']).lower() 
-        phraz_i = phraz.split()
-        
+                        for item_phraz in phraz_i:
 
-        for phraz_item in phraz_i:
-            if len(phraz_item) > len(item[0]):
-                distance = nltk.edit_distance(item[0],phraz_item)/len(phraz_item)
-            else:
-                distance = nltk.edit_distance(item[0],phraz_item)/len(item)
-
-            if distance <= 0.3:
-                my_find = phraz_item
-                bot.send_message(id,f"naydena fraza {my_find}")
-                
-                mycursor_s = mydb.cursor()
-                axoli_sql = f"SELECT * FROM mobil_baza WHERE Tuman = '{my_find}'"
-                mycursor_s.execute(axoli_sql)
-                punkts = mycursor_s.fetchall()
-                
-                for for_punkst in punkts:
-
-                    for item_phraz in phraz_i:
-
-                        for_punkts_s = for_punkst[3]
+                            for_punkts_s = for_punkst[3]
 
 
-                        if len(item_phraz) > len(for_punkts_s[0]):
-                            distance_punkt = nltk.edit_distance(for_punkts_s,item_phraz)/len(item_phraz)
-                        else:
-                            distance_punkt = nltk.edit_distance(for_punkts_s,item_phraz)/len(for_punkts_s)
+                            if len(item_phraz) > len(for_punkts_s[0]):
+                                distance_punkt = nltk.edit_distance(for_punkts_s,item_phraz)/len(item_phraz)
+                            else:
+                                distance_punkt = nltk.edit_distance(for_punkts_s,item_phraz)/len(for_punkts_s)
 
-                        if distance_punkt <= 0.3:
-                            my_reg = item_phraz
-                            bot.send_message(id,f"naydena fraza {my_reg}")
+                            if distance_punkt <= 0.2:
+                                my_reg = item_phraz
+                                bot.send_message(id,f"naydena fraza {my_reg}")
 
 
-                            mycursor_s = mydb.cursor()
-                            axoli_sql = f"SELECT * FROM mobil_baza WHERE Tuman = '{my_find}' and Axoli_punkt = '{my_reg}'"
-                            mycursor_s.execute(axoli_sql)
-                            my_reg_find = mycursor_s.fetchall()
-                            for i in my_reg_find:
+                                mycursor_s = mydb.cursor()
+                                axoli_sql = f"SELECT * FROM mobil_baza WHERE Tuman = '{my_find}' and Axoli_punkt = '{my_reg}'"
+                                mycursor_s.execute(axoli_sql)
+                                my_reg_find = mycursor_s.fetchall()
+                                for i in my_reg_find:
 
-                                date = str(for_punkst[4])
-                                mus = gTTS(text = f'sizning axoli punktizga {date} yilda aloqa keladi')
-                                mus.save(f'{for_punkst[2]}_{for_punkst[3]}.mp3')
-                                
-                                aud = open(f"{for_punkst[2]}_{for_punkst[3]}.mp3", "rb")
-                                bot.send_audio(id, aud)
-    
+                                    date = str(for_punkst[4])
+                                    # mus = gTTS(text = f'sizning axoli punktizga {date} yilda aloqa keladi')
+                                    mus  = gTTS(text = f'сизнинг ахоли пунктизда {date} йилида алока келади', lang = 'ru')
+                                    mus.save(f'{for_punkst[2]}_{for_punkst[3]}.mp3')
+                                    
+                                    aud = open(f"{for_punkst[2]}_{for_punkst[3]}.mp3", "rb")
+                                    bot.send_audio(id, aud)
+                else:
+                    mydb = connect_to_base("root","","Golos_Navoiy")
+                    mycursor_a = mydb.cursor()
+                    sql = 'INSERT INTO application(user_id, application, date, app_button) VALUES (%s, %s, %s, %s)'
+                    val = (str(id), applicate['application'],t_day, applicate['button'])
+                    mycursor_a.execute(sql, val)
+                    mydb.commit()    
+                    document.clear_item()
+                    bot.send_message(id, 'sizning arizangizga yaqin orada javob beriladi')
+
+
+    elif applicate['button'] == 'Boshqa...':
+        mydb = connect_to_base("root","","Golos_Navoiy")
+        mycursor_b = mydb.cursor()
+        sql = 'INSERT INTO application(user_id, application, date, app_button) VALUES (%s, %s, %s, %s)'
+        val = (str(id), applicate['application'],t_day, applicate['button'])
+        mycursor_b.execute(sql, val)
+        mydb.commit()    
+        document.clear_item()
+        bot.send_message(id, 'sizning arizangizga yaqin orada javob beriladi')
+    elif applicate['button'] == 'Internet':
+        pass
+
+
+    print("clear function")
     document.clear_item()
 
 
@@ -291,14 +316,6 @@ def add_app(id):
     #     bot.send_message(id,f" Sizni suxbatdoshiz  {distance} ")
     # else:
     #     bot.send_message(id,distance)
-
-
-    """sql = 'INSERT INTO application(user_id, application, date, app_button) VALUES (%s, %s, %s, %s)'
-    val = (str(id), applicate['application'],t_day, applicate['button'])
-    mycursor.execute(sql, val)
-    mydb.commit()    
-    document.clear_item()"""
-
 
 
 def add_user(id):
@@ -452,17 +469,13 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['text'])
 def button_processing(message):
-    if message.text == 'Aloqa':
+    if message.text == 'Aloqa' or message.text == 'Boshqa...' or message.text == 'Internet':
         asd = 'iltimos qiynagan savolingizni bravering, yaqin orada biz javob berishga harakat qilamiz'
-        bot.send_message(message.from_user.id, asd)
+        bot.send_message(message.from_user.id, asd,reply_markup=telebot.types.ReplyKeyboardRemove())
         document.add_chat_id(message.chat.id)
         document.add_button(message.text, message.chat.id)
         check_application(message.chat.id)
-        bot.register_next_step_handler(message, ariza_vopros)
-    else:
-        bot.send_message(message.chat.id, f"WWW!")
-
-        
+        bot.register_next_step_handler(message, ariza_vopros)    
 
 
 

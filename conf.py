@@ -107,8 +107,8 @@ class Documentation:
         return Documentation.users_aplication[str(chat_id)]
 
     def clear_item(self):
-        self.chat_id = ""
-        self.application = ""
+        Documentation.users_aplication.clear()
+        Documentation.applikation.clear()
 
     def __str__(self):
         return applikation
